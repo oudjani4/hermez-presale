@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <style>
+        .admin-box { background: #f9f9f9; border: 2px solid #333; padding: 20px; margin: 10px; border-radius: 10px; font-family: Arial; }
+        input { display: block; margin: 10px 0; padding: 10px; width: 90%; border: 1px solid #ccc; }
+        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 5px; }
+        .upgrade-btn { background: #28a745; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-box">
+        <h3>➕ خانة الاشتراك (New User)</h3>
+        <input type="text" id="id_in" placeholder="رقم المعرف ID">
+        <input type="text" id="wallet_in" placeholder="محفظة المشترك (تبدأ بـ UQ)">
+        <input type="text" id="upline_in" placeholder="محفظة الأب-لاين (تبدأ بـ UQ)">
+        <button onclick="alert('تم تسجيل المشترك ' + document.getElementById('id_in').value + ' بنجاح!')">تسجيل واشتراك</button>
+    </div>
+
+    <div class="admin-box">
+        <h3>🆙 خانة الترقية (Level Up)</h3>
+        <input type="text" id="id_up" placeholder="أدخل ID المشترك للترقية">
+        <input type="number" id="lvl_up" placeholder="المستوى الجديد (Level)">
+        <button class="upgrade-btn" onclick="alert('تم ترقية المعرف ' + document.getElementById('id_up').value + ' إلى المستوى ' + document.getElementById('lvl_up').value)">تأكيد الترقية</button>
+    </div>
+
+</body>
+</html>
