@@ -102,9 +102,6 @@ footer{margin-top:40px;color:var(--mute);font-size:14px}
   <li>After the presale ends, HMZ tokens are sent to that same address on the delivery date.</li>
 </ol>
 
-<h2>Token distribution</h2>
-<div class="card"><div class="tk" id="tk"></div></div>
-
 <h2>Disclaimer</h2>
 <p class="warn">This presale is not investment advice. We do not guarantee any profit, future price, or exchange listing. Only take part with an amount you can afford to lose, and always verify the wallet address and token contract on the official channel.</p>
 
@@ -120,12 +117,11 @@ const C={
   wallet:"UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As",
   token:"EQCQ43vfvqgAqO6Cx9McYVVEYpeziO_MLdlJA56aK6vUOjfx",
   packages:[[1000,2],[5000,8],[10000,15]],  // [HMZ, TON]
-  supply:1000000,           // tokens for sale
+  supply:0,  // ضع كمية البيع المسبق الحقيقية هنا (0 يخفي الشريط)
   sold:0,                   // tokens sold so far
   raisedTon:0,              // total raised in TON
   end:"2026-11-01T23:59:59Z",
-  delivery:"Within 48 hours after the presale ends",
-  tokenomics:[["Presale",30],["Rewards & bot",30],["Liquidity",20],["Team",15],["Marketing",5]]
+  delivery:"Within 48 hours after the presale ends"
 };
 /* ================================ */
 const $=id=>document.getElementById(id), f=n=>Number(n).toLocaleString("en-US");
@@ -134,9 +130,18 @@ $("wallet").textContent=C.wallet;$("token").textContent=C.token;
 const pp=C.packages.map(p=>p[1]/p[0]);$("price").textContent=Math.min(...pp)+" – "+Math.max(...pp)+" TON per HMZ";$("limits").textContent=C.packages.map(p=>f(p[0])+" = "+p[1]+" TON").join(" · ");
 $("pk").innerHTML=C.packages.map(([h,t])=>`<div><b>${f(h)}</b><small>HMZ</small><div class="ton">${t} TON</div></div>`).join("");
 $("delivery").textContent=C.delivery;$("supply").textContent=f(C.supply)+" HMZ";
-$("raised").textContent=f(C.raisedTon)+" TON";
-requestAnimationFrame(()=>$("fill").style.width=Math.min(100,C.sold/C.supply*100)+"%");
-$("tk").innerHTML=C.tokenomics.map(([n,p])=>`<div><span>${n}</span><span class="t"><i style="width:${p}%"></i></span><b>${p}%</b></div>`).join("");
+const PK=Object.fromEntries(C.packages.map(([h,t])=>[t,h]));
+function show(ton,sold){
+  $("raised").textContent=f(+ton.toFixed(2))+" TON";
+  if(C.supply>0){$("supply").textContent=f(C.supply)+" HMZ";$("fill").style.width=Math.min(100,sold/C.supply*100)+"%"}
+  else{$("supply").parentNode.style.display="none";$("fill").parentNode.style.display="none"}
+}
+show(0,0);
+fetch("https://toncenter.com/api/v2/getTransactions?address="+encodeURIComponent(C.wallet)+"&limit=100").then(r=>r.json()).then(j=>{
+  let ton=0,sold=0;
+  j.result.forEach(t=>{const m=t.in_msg;if(m&&m.source&&Number(m.value)>0){const v=Number(m.value)/1e9;ton+=v;sold+=PK[+v.toFixed(4)]||0}});
+  show(ton,sold);
+}).catch(()=>{});
 function tick(){
   let t=Math.max(0,new Date(C.end)-Date.now())/1000|0;
   const v={d:t/86400|0,h:t%86400/3600|0,m:t%3600/60|0,s:t%60};
