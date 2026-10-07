@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Hermez Admin</title>
+<style>
+body{margin:0;padding:14px;font:15px/1.6 system-ui,sans-serif;background:#eef3f9;color:#0a2240}
+h1{font-size:22px;margin:4px 0 12px}
+.top{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.sum{background:#fff;border:1px solid #d3dfec;border-radius:12px;padding:12px;margin-bottom:12px}
+.c{background:#fff;border:1px solid #d3dfec;border-radius:12px;padding:12px;margin-bottom:10px;border-inline-start:5px solid #f0a030}
+.c.d{border-inline-start-color:#2ea44f;opacity:.75}.c.i{border-inline-start-color:#999;opacity:.6}
+.big{font-size:19px;font-weight:700}
+code{display:block;direction:ltr;text-align:left;word-break:break-all;font-size:12px;color:#4f6580}
+input,select{width:100%;box-sizing:border-box;padding:9px;border:1px solid #d3dfec;border-radius:8px;font:13px monospace;direction:ltr;margin:6px 0}
+select{width:auto;font:14px system-ui;direction:rtl}
+button,a.b{display:inline-block;border:0;border-radius:8px;padding:9px 14px;margin:4px 4px 0 0;font:600 14px system-ui;background:#f0a030;color:#1b1200;text-decoration:none;cursor:pointer}
+button.g{background:#2ea44f;color:#fff}button.s{background:#d3dfec;color:#0a2240}
+.w{color:#b8730a;font-weight:600}
+</style>
+</head>
+<body>
+<h1>لوحة مبيعات Hermez</h1>
+<div class="top">
+  <button id="rf">تحديث</button>
+  <select id="flt"><option value="p">بانتظار الدفع</option><option value="d">تم الدفع</option><option value="i">متجاهَل</option><option value="all">الكل</option></select>
+</div>
+<div class="sum" id="sum"></div>
+<div id="st"></div>
+<div id="list"></div>
+<script>
+const C={
+  wallet:"UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As",
+  master:"EQCQ43vfvqgAqO6Cx9McYVVEYpeziO_MLdlJA56aK6vUOjfx",
+  decimals:9,
+  packages:{2:1000,8:5000,15:10000}
+};
+const K="hermez_admin_state",$=id=>document.getElementById(id);
+let S={},rows=[];
+try{S=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
+const hex=b=>{try{return Array.from(atob(b.replace(/-/g,"+").replace(/_/g,"/")),c=>c.charCodeAt(0).toString(16).padStart(2,"0")).join("")}catch(e){return b}};
+async function load(){
+  $("st").textContent="جارٍ التحميل...";
+  try{
+    const r=await fetch("https://toncenter.com/api/v2/getTransactions?address="+encodeURIComponent(C.wallet)+"&limit=100");
+    const j=await r.json();
+    if(!j.ok)throw new Error("api");
+    rows=j.result.filter(t=>t.in_msg&&t.in_msg.source&&Number(t.in_msg.value)>0)
+      .map(t=>({id:t.transaction_id.hash,time:t.utime,from:t.in_msg.source,ton:Number(t.in_msg.value)/1e9}));
+    $("st").textContent="";
+    render();
+  }catch(e){$("st").textContent="تعذر التحميل، أعد المحاولة بعد ثوانٍ."}
+}
+function render(){
+  const f=$("flt").value;let owed=0,pend=0,ton=0,out=[];
+  rows.forEach(r=>{
+    const s=S[r.id]||{},hmz=C.packages[+r.ton.toFixed(4)],st=s.st||"p";
+    ton+=r.ton;
+    if(st=="p"&&hmz){owed+=hmz;pend++}
+    if(f!="all"&&f!=st)return;
+    const to=s.to||r.from;
+    let pay="";
+    if(hmz){
+      const raw=(BigInt(hmz)*(10n**BigInt(C.decimals))).toString();
+      pay='<a class="b" target="_blank" rel="noopener" href="https://app.tonkeeper.com/transfer/'+encodeURIComponent(to)+'?jetton='+C.master+'&amount='+raw+'">دفع '+hmz.toLocaleString("en-US")+' HMZ</a>';
+    }
+    out.push('<div class="c '+st+'">'
+      +'<div class="big">'+r.ton+' TON '+(hmz?'= '+hmz.toLocaleString("en-US")+' HMZ':'<span class="w">مبلغ غير معروف، راجعه يدويًا</span>')+'</div>'
+      +'<div>'+new Date(r.time*1000).toLocaleString("en-GB")+'</div>'
+      +'<div>المرسل:</div><code>'+esc(r.from)+'</code>'
+      +'<div>عنوان استلام HMZ (عدّله إذا أرسل لك المشتري عنوانًا آخر):</div>'
+      +'<input data-a="to" data-i="'+esc(r.id)+'" value="'+esc(to)+'">'
+      +pay
+      +'<button class="g" data-a="d" data-i="'+esc(r.id)+'">تم الدفع</button>'
+      +'<button class="s" data-a="i" data-i="'+esc(r.id)+'">تجاهل</button>'
+      +'<button class="s" data-a="p" data-i="'+esc(r.id)+'">إرجاع</button>'
+      +'<a class="b s" target="_blank" rel="noopener" href="https://tonviewer.com/transaction/'+hex(r.id)+'">البلوكتشين</a>'
+      +'</div>');
+  });
+  $("sum").innerHTML="إجمالي المستلم: <b>"+ton.toFixed(2)+" TON</b><br>بانتظار الدفع: <b>"+pend+"</b> طلب، المطلوب إرسال <b>"+owed.toLocaleString("en-US")+" HMZ</b>";
+  $("list").innerHTML=out.join("")||"<p>لا توجد عمليات.</p>";
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-a]");if(!b)return;
+  const i=b.dataset.i;S[i]=Object.assign(S[i]||{},{st:b.dataset.a});save();render();
+});
+document.addEventListener("change",e=>{
+  const t=e.target;if(t.dataset&&t.dataset.a=="to"){
+    const i=t.dataset.i;S[i]=Object.assign(S[i]||{},{to:t.value.trim()});save();render();
+  }
+});
+$("flt").onchange=render;$("rf").onclick=load;
+load();
+</script>
+</body>
+</html>
