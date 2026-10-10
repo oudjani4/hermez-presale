@@ -2,119 +2,115 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Hermez ($HMZ) - Airdrop & Presale</title>
-    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hermez Airdrop & Presale</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #0f172a; color: #fff; text-align: center; padding: 20px; }
-        .card { background: #1e293b; padding: 20px; margin: 15px auto; border-radius: 10px; max-width: 500px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        button { background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        button:disabled { background: #64748b; cursor: not-allowed; }
-        input { padding: 10px; width: 80%; border-radius: 5px; border: none; margin-top: 10px; text-align: center; }
-        .package-box { background: #334155; padding: 10px; margin: 8px 0; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f172a;
+            color: #ffffff;
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+        }
+        .card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        h2 { color: #facc15; margin-bottom: 10px; }
+        p { font-size: 16px; margin: 8px 0; }
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .btn:active { background: #2563eb; }
+        .wallet-box {
+            background: #0f172a;
+            padding: 10px;
+            border-radius: 6px;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 14px;
+            color: #38bdf8;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
 
-    <h1>🚀 منصة Hermez ($HMZ)</h1>
-    
-    <!-- ربط المحفظة -->
+    <!-- قسم الأيردروب ورصيد المستخدم -->
     <div class="card">
-        <h3>ربط المحفظة</h3>
-        <div id="ton-connect" style="display: inline-block;"></div>
+        <h2>Hermez ($HMZ) Airdrop</h2>
+        <p>رصيدك الحالي: <span id="balance">0</span> $HMZ</p>
+        <p>🎁 المكافأة لكل إحالة: 10 $HMZ</p>
+        <p>⚠️ الحد الأدنى للسحب: 500 $HMZ</p>
+        
+        <div class="wallet-box" id="refLink">t.me/Hermez_bot?start=ref_12345</div>
+        <button class="btn" onclick="copyRef()">نسخ رابط الإحالة</button>
+        <button class="btn" style="background: #475569;" onclick="requestWithdraw()">طلب السحب (الحد الأدنى 500)</button>
     </div>
 
-    <!-- لوحة معلومات الأيردروب والرصيد -->
-    <div class="card">
-        <h3>رصيدك الحالي: <span id="balance">0</span> $HMZ</h3>
-        <p>🎁 المكافأة لكل إحالة: <b>10 $HMZ</b></p>
-        <p>⚠️ الحد الأدنى للسحب: <b>500 $HMZ</b></p>
+    <!-- قسم البيع المسبق Presale -->
+    <div class="card" style="border-color: #facc15;">
+        <h2>🔥 مرحلة البيع المسبق (Presale)</h2>
+        <p>⏳ ينتهي البيع المسبق في: 1 نوفمبر</p>
         
-        <div>
-            <label>رابط الإحالة الخاص بك:</label><br>
-            <input type="text" id="refLink" readonly value="https://t.me/Hermez_bot?start=ref_12345">
-            <button onclick="copyRef()">نسخ الرابط</button>
+        <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
+            <p style="font-weight: bold; font-size: 18px;">📦 1,000 HMZ</p>
+            <p style="color: #facc15; font-weight: bold;">السعر: 2 TON</p>
+            <button class="btn" onclick="buyPackage(1000, 2)">شراء الآن</button>
         </div>
 
-        <br>
-        <button id="withdrawBtn" disabled onclick="requestWithdraw()">طلب السحب (الحد الأدنى 500)</button>
-    </div>
+        <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
+            <p style="font-weight: bold; font-size: 18px;">📦 5,000 HMZ</p>
+            <p style="color: #facc15; font-weight: bold;">السعر: 8 TON</p>
+            <button class="btn" onclick="buyPackage(5000, 8)">شراء الآن</button>
+        </div>
 
-    <!-- قسم البيع المسبق (Presale) الأسعار الجديدة -->
-    <div class="card" style="border: 2px solid #eab308;">
-        <h2>🔥 مرحلة البيع المسبق (Presale)</h2>
-        <p>⏳ ينتهي البيع المسبق في: <b>1 نوفمبر</b>[span_1](start_span)[span_1](end_span)</p>
-        
-        <div style="text-align: right; margin-bottom: 15px;">
-            <div class="package-box"><span>📦 1,000 HMZ</span> <b>2 TON</b>[span_2](start_span)[span_2](end_span) <button onclick="buyPackage(2, 1000)">شراء</button></div>
-            <div class="package-box"><span>📦 5,000 HMZ</span> <b>8 TON</b>[span_3](start_span)[span_3](end_span) <button onclick="buyPackage(8, 5000)">شراء</button></div>
-            <div class="package-box"><span>📦 10,000 HMZ</span> <b>15 TON</b>[span_4](start_span)[span_4](end_span) <button onclick="buyPackage(15, 10000)">شراء</button></div>
+        <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
+            <p style="font-weight: bold; font-size: 18px;">📦 10,000 HMZ</p>
+            <p style="color: #facc15; font-weight: bold;">السعر: 15 TON</p>
+            <button class="btn" onclick="buyPackage(10000, 15)">شراء الآن</button>
         </div>
     </div>
 
     <script>
-        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-            manifestUrl: 'https://oudjani4.github.io/hermez-presale/tonconnect-manifest.json',
-            buttonRootId: 'ton-connect'
-        });
-
-        let userBalance = 120; // كمثال تجريبي
-        document.getElementById('balance').innerText = userBalance;
-        
-        function checkWithdrawStatus() {
-            const btn = document.getElementById('withdrawBtn');
-            if (userBalance >= 500) {
-                btn.disabled = false;
-                btn.style.background = '#22c55e';
-            } else {
-                btn.disabled = true;
-                btn.style.background = '#64748b';
-            }
-        }
-        checkWithdrawStatus();
+        // محفظتك الرسمية لاستلام التون عند الشراء
+        const OFFICIAL_WALLET = "UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As";
 
         function copyRef() {
-            const copyText = document.getElementById("refLink");
-            copyText.select();
-            navigator.clipboard.writeText(copyText.value);
+            const refText = document.getElementById("refLink").innerText;
+            navigator.clipboard.writeText(refText);
             alert("تم نسخ رابط الإحالة بنجاح!");
         }
 
-        async function requestWithdraw() {
-            if (!tonConnectUI.connected) {
-                alert("يرجى ربط محفظتك أولاً!");
-                return;
+        function requestWithdraw() {
+            const currentBalance = parseInt(document.getElementById("balance").innerText);
+            if (currentBalance < 500) {
+                alert("عذراً، يجب أن يصل رصيدك إلى 500 HMZ على الأقل لتتمكن من طلب السحب!");
+            } else {
+                alert("تم تقديم طلب السحب بنجاح، سيتم المراجعة والتحويل قريباً.");
             }
-            alert("تم إرسال طلب السحب بنجاح! سيتم التحويل إلى محفظتك قريباً.");
         }
 
-        async function buyPackage(tonCost, hmzAmount) {
-            if (!tonConnectUI.connected) {
-                alert("يرجى ربط محفظتك أولاً لإتمام الشراء!");
-                return;
-            }
-
-            // عنوان المحفظة الرسمي المستلم للبيزسيل
-            const recipientAddress = "UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As";[span_5](start_span)[span_5](end_span)
-
-            const transaction = {
-                validUntil: Math.floor(Date.now() / 1000) + 60,
-                messages: [
-                    {
-                        address: recipientAddress, 
-                        amount: (tonCost * 1000000000).toString() // التحويل إلى Nanoton
-                    }
-                ]
-            };
-
-            try {
-                const result = await tonConnectUI.sendTransaction(transaction);
-                alert(`تمت عملية الدفع بنجاح! سيتم إرسال ${hmzAmount} $HMZ إلى محفظتك.`);
-            } catch (error) {
-                console.error(error);
-                alert("فشلت المعاملة أو تم إلغاؤها من طرف المستخدم.");
+        function buyPackage(amount, price) {
+            if(confirm(`هل تريد تأكيد شراء ${amount} HMZ مقابل ${price} TON؟\nسيتم تحويلك لإتمام الدفع للمحفظة الرسمية.`)) {
+                // يمكنك ربط محفظة TonConnect هنا مستقبلاً
+                alert(`عنوان المحفظة للتحويل:\n${OFFICIAL_WALLET}\n\nيرجى تحويل ${price} TON واستبدال العملات يدوياً أو عبر النظام.`);
             }
         }
     </script>
 </body>
 </html>
-
