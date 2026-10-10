@@ -76,7 +76,6 @@
     <div class="card" style="border-color: #8b5cf6;">
         <h2>🔗 Connect TON Wallet</h2>
         <p>Connect using Tonkeeper, MyTonWallet, or any TON wallet:</p>
-        <!-- مكان ظهور زر اختيار المحافظ الرسمي -->
         <div id="ton-connect"></div>
     </div>
 
@@ -87,26 +86,26 @@
         
         <div class="task-item">
             <p>1️⃣ Ad Task 1</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('1')">Watch Ad 1</button>
-            <button id="task1Btn" class="btn btn-success" onclick="completeTask('1')" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(1)">Watch Ad 1</button>
+            <button id="task1Btn" class="btn btn-success" onclick="completeTask(1)" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
         </div>
 
         <div class="task-item">
             <p>2️⃣ Ad Task 2</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('2')">Watch Ad 2</button>
-            <button id="task2Btn" class="btn btn-success" onclick="completeTask('2')" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(2)">Watch Ad 2</button>
+            <button id="task2Btn" class="btn btn-success" onclick="completeTask(2)" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
         </div>
 
         <div class="task-item">
             <p>3️⃣ Ad Task 3</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('3')">Watch Ad 3</button>
-            <button id="task3Btn" class="btn btn-success" onclick="completeTask('3')" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(3)">Watch Ad 3</button>
+            <button id="task3Btn" class="btn btn-success" onclick="completeTask(3)" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
         </div>
 
         <div class="task-item">
             <p>4️⃣ Ad Task 4</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('4')">Watch Ad 4</button>
-            <button id="task4Btn" class="btn btn-success" onclick="completeTask('4')" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(4)">Watch Ad 4</button>
+            <button id="task4Btn" class="btn btn-success" onclick="completeTask(4)" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
         </div>
 
         <p id="taskStatus" style="color: #facc15; font-weight: bold; margin-top: 15px;">Completed Tasks: 0 / 4</p>
@@ -152,14 +151,14 @@
         const OFFICIAL_WALLET = "UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As";
         let completedTasks = 0;
         let currentBalance = 20;
+        const finishedTasks = {};
 
-        // تهيئة TonConnect UI الرسمية (تعرض نافذة اختيار جميع محافظ التون تلقائياً)
+        // تهيئة TonConnect UI الرسمية
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://oudjani4.github.io/hermez-presale/tonconnect-manifest.json',
             buttonRootId: 'ton-connect'
         });
 
-        // التحقق مما إذا كانت المحفظة متصلة أم لا
         function isWalletConnected() {
             return tonConnectUI.connected;
         }
@@ -189,8 +188,8 @@
 
         function completeTask(taskNumber) {
             const btn = document.getElementById('task' + taskNumber + 'Btn');
-            if (!btn.classList.contains('done') && !btn.disabled) {
-                btn.classList.add('done');
+            if (!finishedTasks[taskNumber] && !btn.disabled) {
+                finishedTasks[taskNumber] = true;
                 btn.innerText = "✅ Completed";
                 btn.style.background = "#334155";
                 btn.disabled = true;
@@ -200,7 +199,7 @@
                 document.getElementById("taskStatus").innerText = "Completed Tasks: " + completedTasks + " / 4";
                 document.getElementById("balance").innerText = currentBalance;
 
-                if (completedTasks === 4) {
+                if (completedTasks >= 4) {
                     alert("Congratulations! All tasks completed. Airdrop and Presale unlocked!");
                     document.getElementById("tasksSection").style.display = "none";
                     document.getElementById("mainAirdrop").classList.remove("hidden");
