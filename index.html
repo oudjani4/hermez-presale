@@ -87,25 +87,25 @@
         <div class="task-item">
             <p>1️⃣ Ad Task 1</p>
             <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(1)">Watch Ad 1</button>
-            <button id="task1Btn" class="btn btn-success" onclick="completeTask(1)" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+            <button id="task1Btn" class="btn btn-success" onclick="completeTask(1)" style="background: #10b981;">Confirm Task 1 (+5 HMZ)</button>
         </div>
 
         <div class="task-item">
             <p>2️⃣ Ad Task 2</p>
             <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(2)">Watch Ad 2</button>
-            <button id="task2Btn" class="btn btn-success" onclick="completeTask(2)" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+            <button id="task2Btn" class="btn btn-success" onclick="completeTask(2)" style="background: #10b981;">Confirm Task 2 (+5 HMZ)</button>
         </div>
 
         <div class="task-item">
             <p>3️⃣ Ad Task 3</p>
             <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(3)">Watch Ad 3</button>
-            <button id="task3Btn" class="btn btn-success" onclick="completeTask(3)" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+            <button id="task3Btn" class="btn btn-success" onclick="completeTask(3)" style="background: #10b981;">Confirm Task 3 (+5 HMZ)</button>
         </div>
 
         <div class="task-item">
             <p>4️⃣ Ad Task 4</p>
             <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(4)">Watch Ad 4</button>
-            <button id="task4Btn" class="btn btn-success" onclick="completeTask(4)" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+            <button id="task4Btn" class="btn btn-success" onclick="completeTask(4)" style="background: #10b981;">Confirm Task 4 (+5 HMZ)</button>
         </div>
 
         <p id="taskStatus" style="color: #facc15; font-weight: bold; margin-top: 15px;">Completed Tasks: 0 / 4</p>
@@ -162,23 +162,16 @@
         function showAd(num) {
             if (typeof show_12000181 === 'function') {
                 show_12000181().then(() => {
-                    enableConfirmButton(num);
+                    alert("Ad watched successfully!");
                 }).catch((e) => {
-                    enableConfirmButton(num);
+                    alert("Ad completed.");
                 });
             } else {
                 alert("Loading ad...");
                 setTimeout(() => {
-                    enableConfirmButton(num);
-                }, 1500);
+                    alert("Ad completed.");
+                }, 1000);
             }
-        }
-
-        function enableConfirmButton(num) {
-            const btn = document.getElementById('task' + num + 'Btn');
-            btn.disabled = false;
-            btn.style.background = "#10b981";
-            alert("Ad finished! You can now confirm task " + num);
         }
 
         function completeTask(num) {
