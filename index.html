@@ -156,7 +156,7 @@
                 document.getElementById("walletBtn").disabled = true;
                 document.getElementById("walletBtn").style.background = "#334155";
                 alert("Wallet connected successfully!");
-            }, 1500);
+            }, 1000);
         }
 
         function showAd(taskNumber) {
@@ -212,7 +212,7 @@
 
         function requestWithdraw() {
             if (!isWalletConnected) {
-                alert("Error: You must connect your TON wallet first!");
+                alert("Error: Please connect your TON wallet first!");
                 return;
             }
             const bal = parseInt(document.getElementById("balance").innerText);
