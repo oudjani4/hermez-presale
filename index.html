@@ -59,20 +59,65 @@
             color: #38bdf8;
             margin: 10px 0;
         }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- 1. Wallet Connection Requirement Card -->
+    <!-- 1. Connect TON Wallet First -->
     <div class="card" style="border-color: #8b5cf6;">
         <h2>🔗 Connect TON Wallet</h2>
-        <p>⚠️ Connecting your TON wallet is required to join the airdrop and request withdrawals!</p>
+        <p>Connect your TON wallet to participate in the ecosystem.</p>
         <button id="walletBtn" class="btn" style="background: #8b5cf6;" onclick="connectWallet()">Connect Wallet</button>
         <p id="walletStatus" style="font-size: 14px; color: #94a3b8; margin-top: 10px;">Status: Not Connected</p>
     </div>
 
-    <!-- 2. Presale Section -->
-    <div class="card" style="border-color: #facc15;">
+    <!-- 2. Ad Tasks Section (Unlocks Airdrop & Presale upon completion) -->
+    <div id="tasksSection" class="card">
+        <h2>📋 Ad Tasks (+5 HMZ each)</h2>
+        <p>Complete these tasks to unlock your Airdrop dashboard and Presale:</p>
+        
+        <div class="task-item">
+            <p>1️⃣ Ad Task 1</p>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('1')">Watch Ad 1</button>
+            <button id="task1Btn" class="btn btn-success" onclick="completeTask('1')" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+        </div>
+
+        <div class="task-item">
+            <p>2️⃣ Ad Task 2</p>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('2')">Watch Ad 2</button>
+            <button id="task2Btn" class="btn btn-success" onclick="completeTask('2')" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+        </div>
+
+        <div class="task-item">
+            <p>3️⃣ Ad Task 3</p>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('3')">Watch Ad 3</button>
+            <button id="task3Btn" class="btn btn-success" onclick="completeTask('3')" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+        </div>
+
+        <div class="task-item">
+            <p>4️⃣ Ad Task 4</p>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('4')">Watch Ad 4</button>
+            <button id="task4Btn" class="btn btn-success" onclick="completeTask('4')" disabled style="background: #475569;">Confirm Task (+5 HMZ)</button>
+        </div>
+
+        <p id="taskStatus" style="color: #facc15; font-weight: bold; margin-top: 15px;">Completed Tasks: 0 / 4</p>
+    </div>
+
+    <!-- 3. Airdrop Dashboard (Hidden until tasks are completed) -->
+    <div id="mainAirdrop" class="card hidden">
+        <h2>Hermez ($HMZ) Airdrop Dashboard</h2>
+        <p>Current Balance: <span id="balance">20</span> $HMZ</p>
+        <p>🎁 Referral Reward: 10 $HMZ</p>
+        <p>⚠️ Minimum Withdrawal: 500 $HMZ</p>
+        
+        <div class="wallet-box" id="refLink">t.me/Hermez_bot?start=ref_12345</div>
+        <button class="btn" onclick="copyRef()">Copy Referral Link</button>
+        <button class="btn" style="background: #475569;" onclick="requestWithdraw()">Request Withdrawal (Min 500)</button>
+    </div>
+
+    <!-- 4. Presale Section at the bottom (Hidden until tasks are completed) -->
+    <div id="presaleSection" class="card hidden" style="border-color: #facc15;">
         <h2>🔥 Presale Phase</h2>
         <p>⏳ Presale ends on: November 1</p>
         
@@ -95,50 +140,9 @@
         </div>
     </div>
 
-    <!-- 3. Airdrop Dashboard -->
-    <div class="card">
-        <h2>Hermez ($HMZ) Airdrop Dashboard</h2>
-        <p>Current Balance: <span id="balance">20</span> $HMZ</p>
-        <p>🎁 Referral Reward: 10 $HMZ</p>
-        <p>⚠️ Minimum Withdrawal: 500 $HMZ</p>
-        
-        <div class="wallet-box" id="refLink">t.me/Hermez_bot?start=ref_12345</div>
-        <button class="btn" onclick="copyRef()">Copy Referral Link</button>
-        <button class="btn" style="background: #475569;" onclick="requestWithdraw()">Request Withdrawal (Min 500)</button>
-    </div>
-
-    <!-- 4. Optional Ad Tasks -->
-    <div class="card">
-        <h2>📋 Bonus Ad Tasks (+5 HMZ each)</h2>
-        <p>Watch ads to boost your balance:</p>
-        
-        <div class="task-item">
-            <p>1️⃣ Ad Task 1</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('1')">Watch Ad 1</button>
-            <button id="task1Btn" class="btn btn-success" onclick="completeTask('1')" disabled style="background: #475569;">Claim Reward (+5 HMZ)</button>
-        </div>
-
-        <div class="task-item">
-            <p>2️⃣ Ad Task 2</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('2')">Watch Ad 2</button>
-            <button id="task2Btn" class="btn btn-success" onclick="completeTask('2')" disabled style="background: #475569;">Claim Reward (+5 HMZ)</button>
-        </div>
-
-        <div class="task-item">
-            <p>3️⃣ Ad Task 3</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('3')">Watch Ad 3</button>
-            <button id="task3Btn" class="btn btn-success" onclick="completeTask('3')" disabled style="background: #475569;">Claim Reward (+5 HMZ)</button>
-        </div>
-
-        <div class="task-item">
-            <p>4️⃣ Ad Task 4</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd('4')">Watch Ad 4</button>
-            <button id="task4Btn" class="btn btn-success" onclick="completeTask('4')" disabled style="background: #475569;">Claim Reward (+5 HMZ)</button>
-        </div>
-    </div>
-
     <script>
         const OFFICIAL_WALLET = "UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As";
+        let completedTasks = 0;
         let currentBalance = 20;
         let isWalletConnected = false;
 
@@ -151,7 +155,7 @@
                 document.getElementById("walletBtn").innerText = "Connected ✅";
                 document.getElementById("walletBtn").disabled = true;
                 document.getElementById("walletBtn").style.background = "#334155";
-                alert("Wallet connected successfully! You are now eligible for the airdrop and withdrawals.");
+                alert("Wallet connected successfully!");
             }, 1500);
         }
 
@@ -161,12 +165,12 @@
                     const btn = document.getElementById('task' + taskNumber + 'Btn');
                     btn.disabled = false;
                     btn.style.background = "#10b981";
-                    alert("Ad watched successfully! You can now claim your reward.");
+                    alert("Ad watched successfully! You can now confirm task.");
                 }).catch((e) => {
                     const btn = document.getElementById('task' + taskNumber + 'Btn');
                     btn.disabled = false;
                     btn.style.background = "#10b981";
-                    alert("You can now claim your reward.");
+                    alert("You can now confirm task.");
                 });
             } else {
                 alert("Loading ad...");
@@ -182,13 +186,21 @@
             const btn = document.getElementById('task' + taskNumber + 'Btn');
             if (!btn.classList.contains('done') && !btn.disabled) {
                 btn.classList.add('done');
-                btn.innerText = "✅ Claimed";
+                btn.innerText = "✅ Completed";
                 btn.style.background = "#334155";
                 btn.disabled = true;
                 
+                completedTasks++;
                 currentBalance += 5;
+                document.getElementById("taskStatus").innerText = "Completed Tasks: " + completedTasks + " / 4";
                 document.getElementById("balance").innerText = currentBalance;
-                alert("Bonus 5 HMZ added to your balance!");
+
+                if (completedTasks === 4) {
+                    alert("Congratulations! All tasks completed. Airdrop and Presale unlocked!");
+                    document.getElementById("tasksSection").style.display = "none";
+                    document.getElementById("mainAirdrop").classList.remove("hidden");
+                    document.getElementById("presaleSection").classList.remove("hidden");
+                }
             }
         }
 
@@ -200,18 +212,22 @@
 
         function requestWithdraw() {
             if (!isWalletConnected) {
-                alert("Error: You must connect your TON wallet first to request a withdrawal!");
+                alert("Error: You must connect your TON wallet first!");
                 return;
             }
             const bal = parseInt(document.getElementById("balance").innerText);
             if (bal < 500) {
                 alert("Sorry, your balance must reach at least 500 HMZ to request a withdrawal!");
             } else {
-                alert("Withdrawal request submitted successfully to your connected wallet.");
+                alert("Withdrawal request submitted successfully.");
             }
         }
 
         function buyPackage(amount, price) {
+            if(!isWalletConnected) {
+                alert("Error: Please connect your TON wallet from the top of the page first!");
+                return;
+            }
             if(confirm("Do you want to confirm purchasing " + amount + " HMZ for " + price + " TON?")) {
                 alert("Official Wallet Address for Transfer:\n" + OFFICIAL_WALLET + "\n\nPlease transfer " + price + " TON.");
             }
