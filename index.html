@@ -72,14 +72,14 @@
 </head>
 <body>
 
-    <!-- 1. Real TonConnect UI Widget (All TON Wallets) -->
+    <!-- 1. Real TonConnect UI Widget -->
     <div class="card" style="border-color: #8b5cf6;">
         <h2>🔗 Connect TON Wallet</h2>
         <p>Connect using Tonkeeper, MyTonWallet, or any TON wallet:</p>
         <div id="ton-connect"></div>
     </div>
 
-    <!-- 2. Ad Tasks Section (Unlocks Airdrop & Presale upon completion) -->
+    <!-- 2. Ad Tasks Section -->
     <div id="tasksSection" class="card">
         <h2>📋 Ad Tasks (+5 HMZ each)</h2>
         <p>Complete these tasks to unlock your Airdrop dashboard and Presale:</p>
@@ -111,7 +111,7 @@
         <p id="taskStatus" style="color: #facc15; font-weight: bold; margin-top: 15px;">Completed Tasks: 0 / 4</p>
     </div>
 
-    <!-- 3. Airdrop Dashboard (Hidden until tasks are completed) -->
+    <!-- 3. Airdrop Dashboard -->
     <div id="mainAirdrop" class="card hidden">
         <h2>Hermez ($HMZ) Airdrop Dashboard</h2>
         <p>Current Balance: <span id="balance">20</span> $HMZ</p>
@@ -123,7 +123,7 @@
         <button class="btn" style="background: #475569;" onclick="requestWithdraw()">Request Withdrawal (Min 500)</button>
     </div>
 
-    <!-- 4. Presale Section at the bottom (Hidden until tasks are completed) -->
+    <!-- 4. Presale Section -->
     <div id="presaleSection" class="card hidden" style="border-color: #facc15;">
         <h2>🔥 Presale Phase</h2>
         <p>⏳ Presale ends on: November 1</p>
@@ -149,57 +149,52 @@
 
     <script>
         const OFFICIAL_WALLET = "UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As";
-        let completedTasks = 0;
+        let completedCount = 0;
         let currentBalance = 20;
-        const finishedTasks = {};
+        const taskState = {1: false, 2: false, 3: false, 4: false};
 
-        // تهيئة TonConnect UI الرسمية
+        // Initialize TonConnect UI
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://oudjani4.github.io/hermez-presale/tonconnect-manifest.json',
             buttonRootId: 'ton-connect'
         });
 
-        function isWalletConnected() {
-            return tonConnectUI.connected;
-        }
-
-        function showAd(taskNumber) {
+        function showAd(num) {
             if (typeof show_12000181 === 'function') {
                 show_12000181().then(() => {
-                    const btn = document.getElementById('task' + taskNumber + 'Btn');
-                    btn.disabled = false;
-                    btn.style.background = "#10b981";
-                    alert("Ad watched successfully! You can now confirm task.");
+                    enableConfirmButton(num);
                 }).catch((e) => {
-                    const btn = document.getElementById('task' + taskNumber + 'Btn');
-                    btn.disabled = false;
-                    btn.style.background = "#10b981";
-                    alert("You can now confirm task.");
+                    enableConfirmButton(num);
                 });
             } else {
                 alert("Loading ad...");
                 setTimeout(() => {
-                    const btn = document.getElementById('task' + taskNumber + 'Btn');
-                    btn.disabled = false;
-                    btn.style.background = "#10b981";
-                }, 2000);
+                    enableConfirmButton(num);
+                }, 1500);
             }
         }
 
-        function completeTask(taskNumber) {
-            const btn = document.getElementById('task' + taskNumber + 'Btn');
-            if (!finishedTasks[taskNumber] && !btn.disabled) {
-                finishedTasks[taskNumber] = true;
+        function enableConfirmButton(num) {
+            const btn = document.getElementById('task' + num + 'Btn');
+            btn.disabled = false;
+            btn.style.background = "#10b981";
+            alert("Ad finished! You can now confirm task " + num);
+        }
+
+        function completeTask(num) {
+            if (!taskState[num]) {
+                taskState[num] = true;
+                const btn = document.getElementById('task' + num + 'Btn');
                 btn.innerText = "✅ Completed";
                 btn.style.background = "#334155";
                 btn.disabled = true;
-                
-                completedTasks++;
+
+                completedCount++;
                 currentBalance += 5;
-                document.getElementById("taskStatus").innerText = "Completed Tasks: " + completedTasks + " / 4";
+                document.getElementById("taskStatus").innerText = "Completed Tasks: " + completedCount + " / 4";
                 document.getElementById("balance").innerText = currentBalance;
 
-                if (completedTasks >= 4) {
+                if (completedCount >= 4) {
                     alert("Congratulations! All tasks completed. Airdrop and Presale unlocked!");
                     document.getElementById("tasksSection").style.display = "none";
                     document.getElementById("mainAirdrop").classList.remove("hidden");
@@ -215,25 +210,25 @@
         }
 
         function requestWithdraw() {
-            if (!isWalletConnected()) {
-                alert("Error: Please connect your TON wallet from the top of the page first!");
+            if (!tonConnectUI.connected) {
+                alert("Error: Please connect your TON wallet from the top first!");
                 return;
             }
             const bal = parseInt(document.getElementById("balance").innerText);
             if (bal < 500) {
-                alert("Sorry, the minimum withdrawal amount is 500 HMZ!");
+                alert("Sorry, minimum withdrawal is 500 HMZ!");
             } else {
-                alert("Withdrawal request submitted successfully to your connected wallet.");
+                alert("Withdrawal request submitted successfully.");
             }
         }
 
         function buyPackage(amount, price) {
-            if (!isWalletConnected()) {
-                alert("Error: Please connect your TON wallet from the top of the page first!");
+            if (!tonConnectUI.connected) {
+                alert("Error: Please connect your TON wallet from the top first!");
                 return;
             }
-            if(confirm("Do you want to confirm purchasing " + amount + " HMZ for " + price + " TON?")) {
-                alert("Official Wallet Address for Transfer:\n" + OFFICIAL_WALLET + "\n\nPlease transfer " + price + " TON from your connected wallet.");
+            if(confirm("Confirm purchasing " + amount + " HMZ for " + price + " TON?")) {
+                alert("Official Wallet Address for Transfer:\n" + OFFICIAL_WALLET + "\n\nPlease transfer " + price + " TON.");
             }
         }
     </script>
