@@ -1,161 +1,120 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hermez (HMZ) | Presale</title>
-<meta name="description" content="Official Hermez (HMZ) token presale on the TON network">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#eef3f9;--ink:#0a2240;--mute:#4f6580;--card:#fff;--line:#d3dfec;--sun:#f0a030;--sun-d:#b8730a;--blue:#1b6fe0}
-@media (prefers-color-scheme:dark){:root{--bg:#07142a;--ink:#eaf1fb;--mute:#9db2cc;--card:#0d1f3c;--line:#1f3558;--sun:#f5b04a;--sun-d:#f5b04a;--blue:#5aa0ff}}
-*{box-sizing:border-box;margin:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font:400 16px/1.8 "Manrope",system-ui,sans-serif;padding:0 16px 48px}
-.wrap{max-width:980px;margin:0 auto}
-header{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
-.logo{font:700 26px "Sora",sans-serif;letter-spacing:.5px}
-.tg{color:var(--blue);text-decoration:none;font-weight:500;border:1px solid var(--line);padding:6px 14px;border-radius:99px}
-h1{font:700 clamp(34px,7vw,60px)/1.25 "Sora",sans-serif;margin:28px 0 12px}
-.lead{color:var(--mute);max-width:560px}
-.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;margin-top:28px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
-.count{display:flex;gap:10px;direction:ltr;justify-content:flex-start;margin:10px 0 4px}
-.count div{min-width:70px;text-align:center;border-bottom:3px solid var(--sun);padding-bottom:4px}
-.count b{display:block;font:700 40px/1.2 "Sora",sans-serif;font-variant-numeric:tabular-nums}
-.count span{font-size:13px;color:var(--mute)}
-.bar{height:12px;background:var(--line);border-radius:6px;overflow:hidden;margin:14px 0 6px}
-.bar i{display:block;height:100%;width:0;background:var(--sun);transition:width 1s}
-.row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
-.row:last-child{border:0}
-.row span{color:var(--mute)}
-.wallet{display:flex;gap:8px;margin-top:10px}
-.wallet code{flex:1;direction:ltr;text-align:left;font:13px/1.5 ui-monospace,monospace;word-break:break-all;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px}
-button,.btn{font:600 15px "Manrope",sans-serif;background:var(--sun);color:#1b1200;border:0;border-radius:8px;padding:10px 18px;cursor:pointer;text-decoration:none;display:inline-block}
-button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-.btn{width:100%;text-align:center;margin-top:14px;padding:13px}
-h2{font:700 26px "Sora",sans-serif;margin:44px 0 14px}
-.steps{list-style:none;padding:0;counter-reset:s;display:grid;gap:12px}
-.steps li{counter-increment:s;display:flex;gap:14px;align-items:flex-start}
-.steps li:before{content:counter(s);flex:none;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:600}
-.tk{display:grid;gap:12px}
-.tk div{display:grid;grid-template-columns:110px 1fr 48px;gap:12px;align-items:center}
-.tk .t{height:10px;background:var(--line);border-radius:5px;overflow:hidden}
-.tk .t i{display:block;height:100%;background:var(--blue)}
-.tk b{direction:ltr;text-align:left}
-.pk{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}@media(max-width:620px){.pk{grid-template-columns:1fr}}.pk div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}.pk b{display:block;font:700 28px "Sora",sans-serif}.pk .ton{font:600 20px "Sora",sans-serif;color:var(--sun-d);margin-top:6px}.pk small{color:var(--mute)}
-.warn{border-inline-start:4px solid var(--sun-d);padding:4px 16px;color:var(--mute)}
-footer{margin-top:40px;color:var(--mute);font-size:14px}
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 18px;border-radius:8px;opacity:0;transition:opacity .2s;pointer-events:none}
-#toast.on{opacity:1}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-</style>
+    <meta charset="UTF-8">
+    <title>Hermez ($HMZ) - Airdrop & Presale</title>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #0f172a; color: #fff; text-align: center; padding: 20px; }
+        .card { background: #1e293b; padding: 20px; margin: 15px auto; border-radius: 10px; max-width: 500px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        button { background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        button:disabled { background: #64748b; cursor: not-allowed; }
+        input { padding: 10px; width: 80%; border-radius: 5px; border: none; margin-top: 10px; text-align: center; }
+        .package-box { background: #334155; padding: 10px; margin: 8px 0; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+    </style>
 </head>
 <body>
-<div class="wrap">
 
-<header>
-  <div class="logo">HERMEZ</div>
-  <a class="tg" id="tgTop" href="#">Telegram channel</a>
-</header>
-
-<h1>Hermez (HMZ) Token Presale</h1>
-<p class="lead">A real token on the TON network. Everything below is public and can be verified on-chain before you take part.</p>
-
-<div class="grid">
-  <section class="card">
-    <div>Presale ends in</div>
-    <div class="count" id="count">
-      <div><b id="d">00</b><span>days</span></div>
-      <div><b id="h">00</b><span>hours</span></div>
-      <div><b id="m">00</b><span>minutes</span></div>
-      <div><b id="s">00</b><span>seconds</span></div>
+    <h1>🚀 منصة Hermez ($HMZ)</h1>
+    
+    <!-- ربط المحفظة -->
+    <div class="card">
+        <h3>ربط المحفظة</h3>
+        <div id="ton-connect" style="display: inline-block;"></div>
     </div>
-    <div class="bar"><i id="fill"></i></div>
-    <div class="row"><span>Raised</span><b id="raised"></b></div>
-    <div class="row"><span>Tokens for sale</span><b id="supply"></b></div>
-    <div class="row"><span>Price</span><b id="price"></b></div>
-    <div class="row"><span>Packages</span><b id="limits"></b></div>
-    <div class="row"><span>Delivery</span><b id="delivery"></b></div>
-  </section>
 
-  <section class="card">
-    <b>Official receiving wallet</b>
-    <p style="color:var(--mute);font-size:14px">This is the only official wallet. Ignore any other address sent to you in private messages.</p>
-    <div class="wallet"><code id="wallet"></code><button id="copy" type="button">Copy</button></div>
-    <b style="display:block;margin-top:18px">Token contract</b>
-    <div class="wallet"><code id="token"></code><button id="copy2" type="button">Copy</button></div>
-    <a class="btn" id="tgBuy" href="#">Send your transaction hash on Telegram</a>
-  </section>
-</div>
+    <!-- لوحة معلومات الأيردروب والرصيد -->
+    <div class="card">
+        <h3>رصيدك الحالي: <span id="balance">0</span> $HMZ</h3>
+        <p>🎁 المكافأة لكل إحالة: <b>10 $HMZ</b></p>
+        <p>⚠️ الحد الأدنى للسحب: <b>500 $HMZ</b></p>
+        
+        <div>
+            <label>رابط الإحالة الخاص بك:</label><br>
+            <input type="text" id="refLink" readonly value="https://t.me/Hermez_bot?start=ref_12345">
+            <button onclick="copyRef()">نسخ الرابط</button>
+        </div>
 
-<h2>Packages</h2>
-<div class="pk" id="pk"></div>
+        <br>
+        <button id="withdrawBtn" disabled onclick="requestWithdraw()">طلب السحب (الحد الأدنى 500)</button>
+    </div>
 
-<h2>How to participate</h2>
-<ol class="steps">
-  <li>Copy the receiving wallet address from this page.</li>
-  <li>Choose a package and send the exact TON amount from your wallet.</li>
-  <li>Send the transaction link or hash and your wallet address to the official Telegram account.</li>
-  <li>After the presale ends, HMZ tokens are sent to that same address on the delivery date.</li>
-</ol>
+    <!-- قسم البيع المسبق (Presale) الأسعار الجديدة -->
+    <div class="card" style="border: 2px solid #eab308;">
+        <h2>🔥 مرحلة البيع المسبق (Presale)</h2>
+        <p>⏳ ينتهي البيع المسبق في: <b>1 نوفمبر</b>[span_1](start_span)[span_1](end_span)</p>
+        
+        <div style="text-align: right; margin-bottom: 15px;">
+            <div class="package-box"><span>📦 1,000 HMZ</span> <b>2 TON</b>[span_2](start_span)[span_2](end_span) <button onclick="buyPackage(2, 1000)">شراء</button></div>
+            <div class="package-box"><span>📦 5,000 HMZ</span> <b>8 TON</b>[span_3](start_span)[span_3](end_span) <button onclick="buyPackage(8, 5000)">شراء</button></div>
+            <div class="package-box"><span>📦 10,000 HMZ</span> <b>15 TON</b>[span_4](start_span)[span_4](end_span) <button onclick="buyPackage(15, 10000)">شراء</button></div>
+        </div>
+    </div>
 
-<h2>Disclaimer</h2>
-<p class="warn">This presale is not investment advice. We do not guarantee any profit, future price, or exchange listing. Only take part with an amount you can afford to lose, and always verify the wallet address and token contract on the official channel.</p>
+    <script>
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://oudjani4.github.io/hermez-presale/tonconnect-manifest.json',
+            buttonRootId: 'ton-connect'
+        });
 
-<footer>© HERMEZ · All official announcements are posted on the Telegram channel only.</footer>
-</div>
-<div id="toast">Copied</div>
+        let userBalance = 120; // كمثال تجريبي
+        document.getElementById('balance').innerText = userBalance;
+        
+        function checkWithdrawStatus() {
+            const btn = document.getElementById('withdrawBtn');
+            if (userBalance >= 500) {
+                btn.disabled = false;
+                btn.style.background = '#22c55e';
+            } else {
+                btn.disabled = true;
+                btn.style.background = '#64748b';
+            }
+        }
+        checkWithdrawStatus();
 
-<script>
-/* ====== EDIT THIS SECTION ONLY ====== */
-const C={
-  channel:"https://t.me/hermez_hmz_official",
-  contact:"https://t.me/hermez_support",
-  wallet:"UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As",
-  token:"EQCQ43vfvqgAqO6Cx9McYVVEYpeziO_MLdlJA56aK6vUOjfx",
-  packages:[[1000,2],[5000,8],[10000,15]],  // [HMZ, TON]
-  supply:100000000,
-  sold:0,                   // tokens sold so far
-  raisedTon:0,              // total raised in TON
-  end:"2026-11-01T23:59:59Z",
-  delivery:"Within 48 hours after the presale ends"
-};
-/* ================================ */
-const $=id=>document.getElementById(id), f=n=>Number(n).toLocaleString("en-US");
-$("tgTop").href=C.channel;$("tgBuy").href=C.contact;
-$("wallet").textContent=C.wallet;$("token").textContent=C.token;
-const pp=C.packages.map(p=>p[1]/p[0]);$("price").textContent=Math.min(...pp)+" – "+Math.max(...pp)+" TON per HMZ";$("limits").textContent=C.packages.map(p=>f(p[0])+" = "+p[1]+" TON").join(" · ");
-$("pk").innerHTML=C.packages.map(([h,t])=>`<div><b>${f(h)}</b><small>HMZ</small><div class="ton">${t} TON</div></div>`).join("");
-$("delivery").textContent=C.delivery;$("supply").textContent=f(C.supply)+" HMZ";
-const PK=Object.fromEntries(C.packages.map(([h,t])=>[t,h]));
-function show(ton,sold){
-  $("raised").textContent=f(+ton.toFixed(2))+" TON";
-  if(C.supply>0){$("supply").textContent=f(C.supply)+" HMZ";$("fill").style.width=Math.min(100,sold/C.supply*100)+"%"}
-  else{$("supply").parentNode.style.display="none";$("fill").parentNode.style.display="none"}
-}
-show(0,0);
-fetch("https://toncenter.com/api/v2/getTransactions?address="+encodeURIComponent(C.wallet)+"&limit=100").then(r=>r.json()).then(j=>{
-  let ton=0,sold=0;
-  j.result.forEach(t=>{const m=t.in_msg;if(m&&m.source&&Number(m.value)>0){const v=Number(m.value)/1e9;ton+=v;sold+=PK[+v.toFixed(4)]||0}});
-  show(ton,sold);
-}).catch(()=>{});
-function tick(){
-  let t=Math.max(0,new Date(C.end)-Date.now())/1000|0;
-  const v={d:t/86400|0,h:t%86400/3600|0,m:t%3600/60|0,s:t%60};
-  for(const k in v)$(k).textContent=String(v[k]).padStart(2,"0");
-}
-tick();setInterval(tick,1000);
-function cp(btn,txt){
-  const done=()=>{$("toast").classList.add("on");setTimeout(()=>$("toast").classList.remove("on"),1400)};
-  (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(done).catch(()=>{
-    const r=document.createRange();r.selectNode(btn.previousElementSibling);getSelection().removeAllRanges();getSelection().addRange(r);
-  });
-}
-$("copy").onclick=e=>cp(e.target,C.wallet);
-$("copy2").onclick=e=>cp(e.target,C.token);
-</script>
+        function copyRef() {
+            const copyText = document.getElementById("refLink");
+            copyText.select();
+            navigator.clipboard.writeText(copyText.value);
+            alert("تم نسخ رابط الإحالة بنجاح!");
+        }
+
+        async function requestWithdraw() {
+            if (!tonConnectUI.connected) {
+                alert("يرجى ربط محفظتك أولاً!");
+                return;
+            }
+            alert("تم إرسال طلب السحب بنجاح! سيتم التحويل إلى محفظتك قريباً.");
+        }
+
+        async function buyPackage(tonCost, hmzAmount) {
+            if (!tonConnectUI.connected) {
+                alert("يرجى ربط محفظتك أولاً لإتمام الشراء!");
+                return;
+            }
+
+            // عنوان المحفظة الرسمي المستلم للبيزسيل
+            const recipientAddress = "UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As";[span_5](start_span)[span_5](end_span)
+
+            const transaction = {
+                validUntil: Math.floor(Date.now() / 1000) + 60,
+                messages: [
+                    {
+                        address: recipientAddress, 
+                        amount: (tonCost * 1000000000).toString() // التحويل إلى Nanoton
+                    }
+                ]
+            };
+
+            try {
+                const result = await tonConnectUI.sendTransaction(transaction);
+                alert(`تمت عملية الدفع بنجاح! سيتم إرسال ${hmzAmount} $HMZ إلى محفظتك.`);
+            } catch (error) {
+                console.error(error);
+                alert("فشلت المعاملة أو تم إلغاؤها من طرف المستخدم.");
+            }
+        }
+    </script>
 </body>
 </html>
+
