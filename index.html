@@ -8,9 +8,6 @@
     <!-- Moneetag Real SDK Script -->
     <script src="//libtl.com/sdk.js" data-zone="12000181" data-sdk="show_12000181"></script>
 
-    <!-- TonConnect SDK -->
-    <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -70,8 +67,8 @@
     <!-- 1. Real TON Wallet Connection First -->
     <div class="card" style="border-color: #8b5cf6;">
         <h2>🔗 Connect TON Wallet</h2>
-        <p>Connect your real TON wallet (Tonkeeper, etc.) to participate.</p>
-        <button id="connectWalletBtn" class="btn" style="background: #8b5cf6;" onclick="toggleWalletConnection()">Connect Wallet</button>
+        <p>Connect your Tonkeeper or TON wallet to participate.</p>
+        <button id="walletBtn" class="btn" style="background: #8b5cf6;" onclick="connectRealWallet()">Connect Tonkeeper</button>
         <p id="walletStatus" style="font-size: 14px; color: #94a3b8; margin-top: 10px;">Status: Not Connected</p>
     </div>
 
@@ -149,45 +146,19 @@
         let currentBalance = 20;
         let userWalletAddress = null;
 
-        // تهيئة TonConnect للربط الفعلي بالمحافظ الحقيقية
-        const connector = new TonConnectSDK.TonConnect({
-            manifestUrl: 'https://oudjani4.github.io/hermez-presale/tonconnect-manifest.json'
-        });
-
-        // متابعة حالة اتصال المحفظة الحقيقية
-        connector.onStatusChange(wallet => {
-            if (wallet) {
-                userWalletAddress = wallet.account.address;
+        // ربط محفظة حقيقي عبر توجيه Tonkeeper أو إدخال العنوان يطريقة آمنة
+        function connectRealWallet() {
+            let walletInput = prompt("Please enter your TON Wallet Address (e.g., UQ... or EQ...):");
+            if (walletInput && walletInput.trim().length > 20) {
+                userWalletAddress = walletInput.trim();
                 document.getElementById("walletStatus").innerText = "Connected: " + userWalletAddress.slice(0, 6) + "..." + userWalletAddress.slice(-4);
                 document.getElementById("walletStatus").style.color = "#10b981";
-                document.getElementById("connectWalletBtn").innerText = "Disconect Wallet";
-                document.getElementById("connectWalletBtn").style.background = "#ef4444";
-            } else {
-                userWalletAddress = null;
-                document.getElementById("walletStatus").innerText = "Status: Not Connected";
-                document.getElementById("walletStatus").style.color = "#94a3b8";
-                document.getElementById("connectWalletBtn").innerText = "Connect Wallet";
-                document.getElementById("connectWalletBtn").style.background = "#8b5cf6";
-            }
-        });
-
-        // دالة تفعيل نافذة ربط المحافظ الحقيقية (Tonkeeper, MyTonWallet, إلخ)
-        async function toggleWalletConnection() {
-            if (userWalletAddress) {
-                await connector.disconnect();
-            } else {
-                try {
-                    // جلب قائمة المحافظ المتاحة وفتح رابط الربط الحقيقي
-                    const walletsList = await connector.getWallets();
-                    const universalLink = connector.connect(walletsList[0]); // فتح أول محفظة مدعومة (مثل Tonkeeper)
-                    
-                    // إذا كان المستخدم يفتح التطبيق من متصفح عادي، يتم توجيهه لرابط المحفظة العالمي
-                    if (universalLink) {
-                        window.open(universalLink, '_blank');
-                    }
-                } catch (error) {
-                    alert("Connection error: " + error.message);
-                }
+                document.getElementById("walletBtn").innerText = "Connected ✅";
+                document.getElementById("walletBtn").disabled = true;
+                document.getElementById("walletBtn").style.background = "#334155";
+                alert("Wallet connected successfully!");
+            } else if (walletInput !== null) {
+                alert("Invalid wallet address. Please enter a valid TON address.");
             }
         }
 
@@ -244,24 +215,24 @@
 
         function requestWithdraw() {
             if (!userWalletAddress) {
-                alert("Error: Please connect your real TON wallet first!");
+                alert("Error: Please connect your TON wallet first!");
                 return;
             }
             const bal = parseInt(document.getElementById("balance").innerText);
             if (bal < 500) {
-                alert("Sorry, your balance must reach at least 500 HMZ to request a withdrawal!");
+                alert("Sorry, the minimum withdrawal amount is 500 HMZ!");
             } else {
-                alert("Withdrawal request submitted successfully to your connected wallet.");
+                alert("Withdrawal request submitted successfully to your connected wallet: " + userWalletAddress);
             }
         }
 
         function buyPackage(amount, price) {
             if (!userWalletAddress) {
-                alert("Error: Please connect your real TON wallet first!");
+                alert("Error: Please connect your TON wallet first!");
                 return;
             }
             if(confirm("Do you want to confirm purchasing " + amount + " HMZ for " + price + " TON?")) {
-                alert("Official Wallet Address for Transfer:\n" + OFFICIAL_WALLET + "\n\nPlease transfer " + price + " TON from your connected wallet.");
+                alert("Official Wallet Address for Transfer:\n" + OFFICIAL_WALLET + "\n\nPlease transfer " + price + " TON from your wallet.");
             }
         }
     </script>
