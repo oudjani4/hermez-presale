@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hermez Airdrop & Presale</title>
     
+    <!-- Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <!-- Moneetag Real SDK Script -->
     <script src="//libtl.com/sdk.js" data-zone="12000181" data-sdk="show_12000181"></script>
 
@@ -119,7 +122,7 @@
         <p>🎁 Referral Reward: 10 $HMZ</p>
         <p>⚠️ Minimum Withdrawal: 500 $HMZ</p>
         
-        <div class="wallet-box" id="refLink">t.me/Hermez_bot?start=ref_12345</div>
+        <div class="wallet-box" id="refLink">Loading ref link...</div>
         <button class="btn" onclick="copyRef()">Copy Referral Link</button>
         <button class="btn" style="background: #475569;" onclick="requestWithdraw()">Request Withdrawal (Min 500)</button>
     </div>
@@ -153,6 +156,21 @@
         let completedCount = 0;
         let currentBalance = 20;
         const taskState = {1: false, 2: false, 3: false, 4: false};
+
+        // توليد رابط الإحالة الحقيقي بناءً على معرف مستخدم تيليجرام
+        window.addEventListener('DOMContentLoaded', () => {
+            const tg = window.Telegram.WebApp;
+            tg.expand();
+            
+            let userId = "12345"; // قيمة افتراضية في حال الفتح من متصفح عادي
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
+                userId = tg.initDataUnsafe.user.id;
+            }
+            
+            // استبدل Hermez_bot ليكون اسم معرف بوتك الفعلي على تيليجرام بدون @
+            const botUsername = "Hermez_bot"; 
+            document.getElementById("refLink").innerText = `t.me/${botUsername}?start=ref_${userId}`;
+        });
 
         // Initialize TonConnect UI
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
