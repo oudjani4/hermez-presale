@@ -64,10 +64,10 @@
 </head>
 <body>
 
-    <!-- 1. Moneetag Tasks Section (Locked by default) -->
+    <!-- 1. Moneetag Tasks & Wallet Connection Section (Locked by default) -->
     <div id="tasksSection" class="card">
-        <h2>📋 Moneetag Ad Tasks</h2>
-        <p>⚠️ You must watch and complete all 4 ad tasks to unlock the platform, presale, and airdrop dashboard:</p>
+        <h2>📋 Required Tasks & Wallet</h2>
+        <p>⚠️ You must watch all 4 ad tasks AND connect your TON wallet to unlock the platform:</p>
         
         <div class="task-item">
             <p>1️⃣ Ad Task 1</p>
@@ -94,9 +94,16 @@
         </div>
 
         <p id="taskStatus" style="color: #facc15; font-weight: bold; margin-top: 15px;">Completed Tasks: 0 / 4</p>
+
+        <!-- Wallet Connection Requirement -->
+        <div style="margin-top: 20px; border-top: 1px solid #334155; padding-top: 15px;">
+            <p>🔗 Connect TON Wallet:</p>
+            <button id="walletBtn" class="btn" style="background: #8b5cf6;" onclick="connectWallet()">Connect Wallet</button>
+            <p id="walletStatus" style="font-size: 14px; color: #94a3b8; margin-top: 5px;">Status: Not Connected</p>
+        </div>
     </div>
 
-    <!-- 2. Presale Section (Hidden until tasks are completed) -->
+    <!-- 2. Presale Section (Hidden until tasks & wallet are done) -->
     <div id="presaleSection" class="card hidden" style="border-color: #facc15;">
         <h2>🔥 Presale Phase</h2>
         <p>⏳ Presale ends on: November 1</p>
@@ -112,9 +119,15 @@
             <p style="color: #facc15; font-weight: bold;">Price: 8 TON</p>
             <button class="btn" onclick="buyPackage(5000, 8)">Buy Now</button>
         </div>
+
+        <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
+            <p style="font-weight: bold; font-size: 18px;">📦 10,000 HMZ</p>
+            <p style="color: #facc15; font-weight: bold;">Price: 16 TON</p>
+            <button class="btn" onclick="buyPackage(10000, 16)">Buy Now</button>
+        </div>
     </div>
 
-    <!-- 3. Airdrop Dashboard (Hidden until tasks are completed) -->
+    <!-- 3. Airdrop Dashboard (Hidden until tasks & wallet are done) -->
     <div id="mainAirdrop" class="card hidden">
         <h2>Hermez ($HMZ) Airdrop</h2>
         <p>Current Balance: <span id="balance">20</span> $HMZ</p>
@@ -130,6 +143,7 @@
         const OFFICIAL_WALLET = "UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As";
         let completedTasks = 0;
         let currentBalance = 0;
+        let isWalletConnected = false;
 
         function showAd(taskNumber) {
             if (typeof show_12000181 === 'function') {
@@ -165,14 +179,31 @@
                 completedTasks++;
                 currentBalance += 5;
                 document.getElementById("taskStatus").innerText = `Completed Tasks: ${completedTasks} / 4`;
+                checkUnlock();
+            }
+        }
 
-                if (completedTasks === 4) {
-                    alert("Congratulations! All tasks completed. Platform, Presale, and Airdrop unlocked successfully!");
-                    document.getElementById("tasksSection").style.display = "none";
-                    document.getElementById("presaleSection").classList.remove("hidden");
-                    document.getElementById("mainAirdrop").classList.remove("hidden");
-                    document.getElementById("balance").innerText = currentBalance;
-                }
+        function connectWallet() {
+            // محاكاة ربط محفظة TON
+            alert("Connecting to TON Wallet...");
+            setTimeout(() => {
+                isWalletConnected = true;
+                document.getElementById("walletStatus").innerText = "Status: Connected (EQB...Wallet)";
+                document.getElementById("walletStatus").style.color = "#10b981";
+                document.getElementById("walletBtn").innerText = "Connected ✅";
+                document.getElementById("walletBtn").disabled = true;
+                document.getElementById("walletBtn").style.background = "#334155";
+                checkUnlock();
+            }, 1500);
+        }
+
+        function checkUnlock() {
+            if (completedTasks === 4 && isWalletConnected) {
+                alert("Congratulations! All tasks completed and wallet connected. Platform unlocked successfully!");
+                document.getElementById("tasksSection").style.display = "none";
+                document.getElementById("presaleSection").classList.remove("hidden");
+                document.getElementById("mainAirdrop").classList.remove("hidden");
+                document.getElementById("balance").innerText = currentBalance;
             }
         }
 
