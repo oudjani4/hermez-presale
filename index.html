@@ -36,6 +36,15 @@
             font-size: 16px;
         }
         .btn:active { background: #2563eb; }
+        .btn-success { background: #10b981; }
+        .task-item {
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #334155;
+            text-align: right;
+        }
         .wallet-box {
             background: #0f172a;
             padding: 10px;
@@ -46,14 +55,59 @@
             color: #38bdf8;
             margin: 10px 0;
         }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <!-- قسم الأيردروب ورصيد المستخدم -->
-    <div class="card">
+    <!-- قسم مهمات الإعلانات المطلوبة أولاً -->
+    <div id="tasksSection" class="card">
+        <h2>📋 مهمات إعلانات الأيردروب</h2>
+        <p>يجب مشاهدة وإتمام المهمات الـ 4 لفتح لوحة الأيردروب وجمع العملات:</p>
+        
+        <!-- المهمة الأولى -->
+        <div class="task-item">
+            <p>1️⃣ زيارة الإعلان الأول (Moneetag)</p>
+            <a href="رابط_إعلان_مونيتاغ_1" target="_blank" onclick="activateTask(1)">
+                <button class="btn" style="background: #0284c7; padding: 8px;">فتح الإعلان 1</button>
+            </a>
+            <button id="task1Btn" class="btn btn-success" onclick="completeTask(1)" disabled style="background: #475569;">تأكيد إتمام المهمة (+25 HMZ)</button>
+        </div>
+
+        <!-- المهمة الثانية -->
+        <div class="task-item">
+            <p>2️⃣ زيارة الإعلان الثاني (Moneetag)</p>
+            <a href="رابط_إعلان_مونيتاغ_2" target="_blank" onclick="activateTask(2)">
+                <button class="btn" style="background: #0284c7; padding: 8px;">فتح الإعلان 2</button>
+            </a>
+            <button id="task2Btn" class="btn btn-success" onclick="completeTask(2)" disabled style="background: #475569;">تأكيد إتمام المهمة (+25 HMZ)</button>
+        </div>
+
+        <!-- المهمة الثالثة -->
+        <div class="task-item">
+            <p>3️⃣ زيارة الإعلان الثالث (Moneetag)</p>
+            <a href="رابط_إعلان_مونيتاغ_3" target="_blank" onclick="activateTask(3)">
+                <button class="btn" style="background: #0284c7; padding: 8px;">فتح الإعلان 3</button>
+            </a>
+            <button id="task3Btn" class="btn btn-success" onclick="completeTask(3)" disabled style="background: #475569;">تأكيد إتمام المهمة (+25 HMZ)</button>
+        </div>
+
+        <!-- المهمة الرابعة -->
+        <div class="task-item">
+            <p>4️⃣ زيارة الإعلان الرابع (Moneetag)</p>
+            <a href="رابط_إعلان_مونيتاغ_4" target="_blank" onclick="activateTask(4)">
+                <button class="btn" style="background: #0284c7; padding: 8px;">فتح الإعلان 4</button>
+            </a>
+            <button id="task4Btn" class="btn btn-success" onclick="completeTask(4)" disabled style="background: #475569;">تأكيد إتمام المهمة (+25 HMZ)</button>
+        </div>
+
+        <p id="taskStatus" style="color: #facc15; font-weight: bold; margin-top: 15px;">المهام المنجزة: 0 / 4</p>
+    </div>
+
+    <!-- لوحة الأيردروب الرئيسية (مخفية حتى إتمام الـ 4 مهمات) -->
+    <div id="mainAirdrop" class="card hidden">
         <h2>Hermez ($HMZ) Airdrop</h2>
-        <p>رصيدك الحالي: <span id="balance">0</span> $HMZ</p>
+        <p>رصيدك الحالي: <span id="balance">100</span> $HMZ</p>
         <p>🎁 المكافأة لكل إحالة: 10 $HMZ</p>
         <p>⚠️ الحد الأدنى للسحب: 500 $HMZ</p>
         
@@ -72,23 +126,44 @@
             <p style="color: #facc15; font-weight: bold;">السعر: 2 TON</p>
             <button class="btn" onclick="buyPackage(1000, 2)">شراء الآن</button>
         </div>
-
-        <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
-            <p style="font-weight: bold; font-size: 18px;">📦 5,000 HMZ</p>
-            <p style="color: #facc15; font-weight: bold;">السعر: 8 TON</p>
-            <button class="btn" onclick="buyPackage(5000, 8)">شراء الآن</button>
-        </div>
-
-        <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
-            <p style="font-weight: bold; font-size: 18px;">📦 10,000 HMZ</p>
-            <p style="color: #facc15; font-weight: bold;">السعر: 15 TON</p>
-            <button class="btn" onclick="buyPackage(10000, 15)">شراء الآن</button>
-        </div>
     </div>
 
     <script>
-        // محفظتك الرسمية لاستلام التون عند الشراء
         const OFFICIAL_WALLET = "UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As";
+        let completedTasks = 0;
+        let currentBalance = 0;
+
+        function activateTask(taskNumber) {
+            // تفعيل زر التأكيد بعد النقر على رابط الإعلان
+            setTimeout(() => {
+                const btn = document.getElementById(`task${taskNumber}Btn`);
+                if (!btn.classList.contains('done')) {
+                    btn.disabled = false;
+                    btn.style.background = "#10b981";
+                }
+            }, 3000); // ينتظر 3 ثوانٍ ليتمكن المستخدم من تأكيد المهمة
+        }
+
+        function completeTask(taskNumber) {
+            const btn = document.getElementById(`task${taskNumber}Btn`);
+            if (!btn.classList.contains('done') && !btn.disabled) {
+                btn.classList.add('done');
+                btn.innerText = "✅ تم بنجاح";
+                btn.style.background = "#334155";
+                btn.disabled = true;
+                
+                completedTasks++;
+                currentBalance += 25; // مكافأة كل إعلان
+                document.getElementById("taskStatus").innerText = `المهام المنجزة: ${completedTasks} / 4`;
+
+                if (completedTasks === 4) {
+                    alert("مبروك! لقد شاهدت جميع الإعلانات وحصلت على مكافأة البداية، تم فتح لوحة الأيردروب.");
+                    document.getElementById("tasksSection").style.display = "none";
+                    document.getElementById("mainAirdrop").classList.remove("hidden");
+                    document.getElementById("balance").innerText = currentBalance;
+                }
+            }
+        }
 
         function copyRef() {
             const refText = document.getElementById("refLink").innerText;
@@ -97,18 +172,17 @@
         }
 
         function requestWithdraw() {
-            const currentBalance = parseInt(document.getElementById("balance").innerText);
-            if (currentBalance < 500) {
+            const bal = parseInt(document.getElementById("balance").innerText);
+            if (bal < 500) {
                 alert("عذراً، يجب أن يصل رصيدك إلى 500 HMZ على الأقل لتتمكن من طلب السحب!");
             } else {
-                alert("تم تقديم طلب السحب بنجاح، سيتم المراجعة والتحويل قريباً.");
+                alert("تم تقديم طلب السحب بنجاح.");
             }
         }
 
         function buyPackage(amount, price) {
-            if(confirm(`هل تريد تأكيد شراء ${amount} HMZ مقابل ${price} TON؟\nسيتم تحويلك لإتمام الدفع للمحفظة الرسمية.`)) {
-                // يمكنك ربط محفظة TonConnect هنا مستقبلاً
-                alert(`عنوان المحفظة للتحويل:\n${OFFICIAL_WALLET}\n\nيرجى تحويل ${price} TON واستبدال العملات يدوياً أو عبر النظام.`);
+            if(confirm(`هل تريد تأكيد شراء ${amount} HMZ مقابل ${price} TON؟`)) {
+                alert(`عنوان المحفظة للتحويل:\n${OFFICIAL_WALLET}\n\nيرجى تحويل ${price} TON.`);
             }
         }
     </script>
