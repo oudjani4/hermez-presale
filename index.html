@@ -8,9 +8,6 @@
     <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <!-- TonConnect UI SDK -->
-    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,7 +51,6 @@
             text-align: left;
         }
         
-        /* Presale Tiers Styling */
         .tier-box {
             background: #0f172a;
             padding: 15px;
@@ -90,20 +86,15 @@
             margin: 10px 0;
         }
         .hidden { display: none !important; }
-        #ton-connect {
-            display: flex;
-            justify-content: center;
-            margin: 15px 0;
-        }
     </style>
 </head>
 <body>
 
-    <!-- 1. TonConnect Wallet Section -->
+    <!-- 1. Wallet Connection Section -->
     <div class="card" style="border-color: #8b5cf6;">
-        <h2>🔗 Connect TON Wallet</h2>
-        <p>Connect your TON wallet to participate:</p>
-        <div id="ton-connect"></div>
+        <h2>🔗 TON Wallet</h2>
+        <p id="walletStatus" style="color: #facc15; font-weight: bold;">Wallet not connected</p>
+        <button class="btn" style="background: #8b5cf6;" onclick="connectWallet()">Connect Wallet</button>
     </div>
 
     <!-- 2. Airdrop Tasks Section -->
@@ -164,7 +155,7 @@
             <button class="btn" onclick="buyPackage('1,000 HMZ (Starter)', '2')">Buy Tier 1</button>
         </div>
 
-        <!-- Tier 2: Advanced (Featured) -->
+        <!-- Tier 2: Pro -->
         <div class="tier-box tier-featured">
             <div class="badge">POPULAR 🔥</div>
             <p style="font-weight: bold; font-size: 18px; color: #a855f7;">🥈 Tier 2: Pro Package</p>
@@ -173,7 +164,7 @@
             <button class="btn" style="background: #8b5cf6;" onclick="buyPackage('5,000 HMZ (Pro)', '8')">Buy Tier 2</button>
         </div>
 
-        <!-- Tier 3: Elite / Whale -->
+        <!-- Tier 3: Elite -->
         <div class="tier-box">
             <p style="font-weight: bold; font-size: 18px; color: #10b981;">🥇 Tier 3: Elite Whale Package</p>
             <p style="font-size: 20px; font-weight: bold; margin: 5px 0;">10,000 HMZ</p>
@@ -186,6 +177,7 @@
         const OFFICIAL_WALLET = "UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As";
         let completedCount = 0;
         let currentBalance = 20;
+        let isWalletConnected = false;
         let telegramUser = { id: "GUEST", name: "Guest User" };
         const taskState = {1: false, 2: false, 3: false, 4: false};
 
@@ -205,10 +197,11 @@
             document.getElementById("refLink").innerText = `https://t.me/${botUsername}?start=ref_${telegramUser.id}`;
         });
 
-        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-            manifestUrl: 'https://oudjani4.github.io/hermez-presale/tonconnect-manifest.json',
-            buttonRootId: 'ton-connect'
-        });
+        function connectWallet() {
+            isWalletConnected = true;
+            document.getElementById("walletStatusinnerText" || "walletStatus").innerText = "Connected: " + OFFICIAL_WALLET.substring(0, 6) + "...";
+            alert("Wallet connected successfully!");
+        }
 
         function startTask(num) {
             const watchBtn = document.getElementById('watch' + num + 'Btn');
@@ -218,7 +211,7 @@
             setTimeout(() => {
                 watchBtn.innerText = "✅ Done";
                 enableConfirmButton(num);
-            }, 2500);
+            }, 2000);
         }
 
         function enableConfirmButton(num) {
@@ -257,8 +250,8 @@
         }
 
         function requestWithdraw() {
-            if (!tonConnectUI.connected) {
-                alert("Error: Please connect your TON wallet from the top first!");
+            if (!isWalletConnected) {
+                alert("Error: Please connect your TON wallet first!");
                 return;
             }
             const bal = parseInt(document.getElementById("balance").innerText);
@@ -270,8 +263,8 @@
         }
 
         function buyPackage(packageName, price) {
-            if (!tonConnectUI.connected) {
-                alert("Error: Please connect your TON wallet from the top first!");
+            if (!isWalletConnected) {
+                alert("Error: Please connect your TON wallet first!");
                 return;
             }
             if(confirm("Confirm purchasing " + packageName + " for " + price + " TON?")) {
