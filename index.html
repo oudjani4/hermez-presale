@@ -1,18 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hermez Airdrop & Presale</title>
     
-    <!-- Telegram Web App SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-    <!-- Moneetag Real SDK Script -->
-    <script src="//libtl.com/sdk.js" data-zone="12000181" data-sdk="show_12000181"></script>
-
-    <!-- TonConnect UI SDK -->
-    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <!-- ضع هنا كود الـ Tag العام الذي نسخته من Moneetag داخل قسم الـ head -->
+    <!-- مثال: <script src="https://alwingulla.com/p/tag.min.js" data-zone="XXXXXX" async data-cfasync="false"></script> -->
 
     <style>
         body {
@@ -47,14 +41,13 @@
         }
         .btn:active { background: #2563eb; }
         .btn-success { background: #10b981; }
-        .btn-disabled { background: #475569 !important; cursor: not-allowed; opacity: 0.6; }
         .task-item {
             background: #0f172a;
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 10px;
             border: 1px solid #334155;
-            text-align: left;
+            text-align: right;
         }
         .wallet-box {
             background: #0f172a;
@@ -67,160 +60,110 @@
             margin: 10px 0;
         }
         .hidden { display: none !important; }
-        #ton-connect {
-            display: flex;
-            justify-content: center;
-            margin: 15px 0;
-        }
     </style>
 </head>
 <body>
 
-    <!-- 1. Real TonConnect UI Widget -->
-    <div class="card" style="border-color: #8b5cf6;">
-        <h2>🔗 Connect TON Wallet</h2>
-        <p>Connect using Tonkeeper, MyTonWallet, or any TON wallet:</p>
-        <div id="ton-connect"></div>
-    </div>
-
-    <!-- 2. Ad Tasks Section -->
+    <!-- 1. قسم مهمات إعلانات Moneetag الأولية -->
     <div id="tasksSection" class="card">
-        <h2>📋 Ad Tasks (+5 HMZ each)</h2>
-        <p>Complete these tasks to unlock your Airdrop dashboard and Presale:</p>
+        <h2>📋 مهمات إعلانات Moneetag</h2>
+        <p>⚠️ يجب إتمام المهمات الـ 4 عبر فتح المشاهدة لتفعيل وفتح قفل المنصة والوصول إلى البيع المسبق والأيردروب:</p>
         
         <div class="task-item">
-            <p>1️⃣ Ad Task 1</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(1)">Watch Ad 1</button>
-            <button id="task1Btn" class="btn btn-disabled" onclick="completeTask(1)" disabled>Confirm Task 1 (+5 HMZ)</button>
+            <p>1️⃣ مشاهدة الإعلان الأول</p>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(1)">عرض الإعلان 1</button>
+            <button id="task1Btn" class="btn btn-success" onclick="completeTask(1)" disabled style="background: #475569;">تأكيد إتمام المهمة (+25 HMZ)</button>
         </div>
 
         <div class="task-item">
-            <p>2️⃣ Ad Task 2</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(2)">Watch Ad 2</button>
-            <button id="task2Btn" class="btn btn-disabled" onclick="completeTask(2)" disabled>Confirm Task 2 (+5 HMZ)</button>
+            <p>2️⃣ مشاهدة الإعلان الثاني</p>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(2)">عرض الإعلان 2</button>
+            <button id="task2Btn" class="btn btn-success" onclick="completeTask(2)" disabled style="background: #475569;">تأكيد إتمام المهمة (+25 HMZ)</button>
         </div>
 
         <div class="task-item">
-            <p>3️⃣ Ad Task 3</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(3)">Watch Ad 3</button>
-            <button id="task3Btn" class="btn btn-disabled" onclick="completeTask(3)" disabled>Confirm Task 3 (+5 HMZ)</button>
+            <p>3️⃣ مشاهدة الإعلان الثالث</p>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(3)">عرض الإعلان 3</button>
+            <button id="task3Btn" class="btn btn-success" onclick="completeTask(3)" disabled style="background: #475569;">تأكيد إتمام المهمة (+25 HMZ)</button>
         </div>
 
         <div class="task-item">
-            <p>4️⃣ Ad Task 4</p>
-            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(4)">Watch Ad 4</button>
-            <button id="task4Btn" class="btn btn-disabled" onclick="completeTask(4)" disabled>Confirm Task 4 (+5 HMZ)</button>
+            <p>4️⃣ مشاهدة الإعلان الرابع</p>
+            <button class="btn" style="background: #0284c7; padding: 8px;" onclick="showAd(4)">عرض الإعلان 4</button>
+            <button id="task4Btn" class="btn btn-success" onclick="completeTask(4)" disabled style="background: #475569;">تأكيد إتمام المهمة (+25 HMZ)</button>
         </div>
 
-        <p id="taskStatus" style="color: #facc15; font-weight: bold; margin-top: 15px;">Completed Tasks: 0 / 4</p>
+        <p id="taskStatus" style="color: #facc15; font-weight: bold; margin-top: 15px;">المهام المنجزة: 0 / 4</p>
     </div>
 
-    <!-- 3. Airdrop Dashboard -->
-    <div id="mainAirdrop" class="card hidden">
-        <h2>Hermez ($HMZ) Airdrop Dashboard</h2>
-        <p>Current Balance: <span id="balance">20</span> $HMZ</p>
-        <p>🎁 Referral Reward: 10 $HMZ</p>
-        <p>⚠️ Minimum Withdrawal: 500 $HMZ</p>
-        
-        <div class="wallet-box" id="refLink">Generating link...</div>
-        <button class="btn" onclick="copyRef()">Copy Referral Link</button>
-        <button class="btn" style="background: #475569;" onclick="requestWithdraw()">Request Withdrawal (Min 500)</button>
-    </div>
-
-    <!-- 4. Presale Section -->
+    <!-- 2. قسم البيع المسبق Presale (مخفي حتى ينهي المستخدم المهام) -->
     <div id="presaleSection" class="card hidden" style="border-color: #facc15;">
-        <h2>🔥 Presale Phase</h2>
-        <p>⏳ Presale ends on: November 1</p>
+        <h2>🔥 مرحلة البيع المسبق (Presale)</h2>
+        <p>⏳ ينتهي البيع المسبق في: 1 نوفمبر</p>
         
         <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
             <p style="font-weight: bold; font-size: 18px;">📦 1,000 HMZ</p>
-            <p style="color: #facc15; font-weight: bold;">Price: 2 TON</p>
-            <button class="btn" onclick="buyPackage('1,000', '2')">Buy Now</button>
+            <p style="color: #facc15; font-weight: bold;">السعر: 2 TON</p>
+            <button class="btn" onclick="buyPackage(1000, 2)">شراء الآن</button>
         </div>
 
         <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
             <p style="font-weight: bold; font-size: 18px;">📦 5,000 HMZ</p>
-            <p style="color: #facc15; font-weight: bold;">Price: 8 TON</p>
-            <button class="btn" onclick="buyPackage('5,000', '8')">Buy Now</button>
+            <p style="color: #facc15; font-weight: bold;">السعر: 8 TON</p>
+            <button class="btn" onclick="buyPackage(5000, 8)">شراء الآن</button>
         </div>
+    </div>
 
-        <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
-            <p style="font-weight: bold; font-size: 18px;">📦 10,000 HMZ</p>
-            <p style="color: #facc15; font-weight: bold;">Price: 16 TON</p>
-            <button class="btn" onclick="buyPackage('10,000', '16')">Buy Now</button>
-        </div>
+    <!-- 3. لوحة الأيردروب الرئيسية (مخفية حتى ينهي المستخدم المهام) -->
+    <div id="mainAirdrop" class="card hidden">
+        <h2>Hermez ($HMZ) Airdrop</h2>
+        <p>رصيدك الحالي: <span id="balance">100</span> $HMZ</p>
+        <p>🎁 المكافأة لكل إحالة: 10 $HMZ</p>
+        <p>⚠️ الحد الأدنى للسحب: 500 $HMZ</p>
+        
+        <div class="wallet-box" id="refLink">t.me/Hermez_bot?start=ref_12345</div>
+        <button class="btn" onclick="copyRef()">نسخ رابط الإحالة</button>
+        <button class="btn" style="background: #475569;" onclick="requestWithdraw()">طلب السحب (الحد الأدنى 500)</button>
     </div>
 
     <script>
         const OFFICIAL_WALLET = "UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As";
-        let completedCount = 0;
-        let currentBalance = 20;
-        const taskState = {1: false, 2: false, 3: false, 4: false};
+        let completedTasks = 0;
+        let currentBalance = 0;
 
-        // توليد رابط الإحالة الحقيقي فور فتح التطبيق المصغر
-        window.addEventListener('DOMContentLoaded', () => {
-            const tg = window.Telegram.WebApp;
-            tg.expand();
+        function showAd(taskNumber) {
+            // محاكاة فتح إعلان Moneetag المكافأة (أو استدعاء الدالة البرمجية الخاصة بهم مثل show_12345())
+            alert("جاري تحميل إعلان Moneetag...");
             
-            let userId = "";
-            if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
-                userId = tg.initDataUnsafe.user.id;
-            } else {
-                // في حال فتح الصفحة من المتصفح الخارجي للتجربة المؤقتة
-                userId = "GUEST_" + Math.floor(Math.random() * 100000);
-            }
-            
-            const botUsername = "Hermez_bot"; 
-            document.getElementById("refLink").innerText = `t.me/${botUsername}?start=ref_${userId}`;
-        });
-
-        // Initialize TonConnect UI
-        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-            manifestUrl: 'https://oudjani4.github.io/hermez-presale/tonconnect-manifest.json',
-            buttonRootId: 'ton-connect'
-        });
-
-        function showAd(num) {
-            if (typeof show_12000181 === 'function') {
-                show_12000181().then(() => {
-                    enableConfirmButton(num);
-                }).catch((e) => {
-                    enableConfirmButton(num);
-                });
-            } else {
-                alert("Loading ad...");
-                setTimeout(() => {
-                    enableConfirmButton(num);
-                }, 1500);
-            }
+            // تفعيل زر التأكيد بعد محاكاة المشاهدة
+            setTimeout(() => {
+                const btn = document.getElementById(`task${taskNumber}Btn`);
+                if (!btn.classList.contains('done')) {
+                    btn.disabled = false;
+                    btn.style.background = "#10b981";
+                    alert("تمت مشاهدة الإعلان بنجاح! يمكنك الآن النقر على زر تأكيد المهمة.");
+                }
+            }, 3000);
         }
 
-        function enableConfirmButton(num) {
-            const btn = document.getElementById('task' + num + 'Btn');
-            btn.disabled = false;
-            btn.classList.remove('btn-disabled');
-            btn.style.background = "#10b981";
-            alert("Ad finished! You can now confirm task " + num);
-        }
-
-        function completeTask(num) {
-            const btn = document.getElementById('task' + num + 'Btn');
-            if (!taskState[num] && !btn.disabled) {
-                taskState[num] = true;
-                btn.innerText = "✅ Completed";
+        function completeTask(taskNumber) {
+            const btn = document.getElementById(`task${taskNumber}Btn`);
+            if (!btn.classList.contains('done') && !btn.disabled) {
+                btn.classList.add('done');
+                btn.innerText = "✅ تم بنجاح";
                 btn.style.background = "#334155";
                 btn.disabled = true;
+                
+                completedTasks++;
+                currentBalance += 25;
+                document.getElementById("taskStatus").innerText = `المهام المنجزة: ${completedTasks} / 4`;
 
-                completedCount++;
-                currentBalance += 5;
-                document.getElementById("taskStatus").innerText = "Completed Tasks: " + completedCount + " / 4";
-                document.getElementById("balance").innerText = currentBalance;
-
-                if (completedCount >= 4) {
-                    alert("Congratulations! All tasks completed. Airdrop and Presale unlocked!");
+                if (completedTasks === 4) {
+                    alert("مبروك! لقد أتممت جميع إعلانات Moneetag، تم فتح قفل المنصة والبيع المسبق بنجاح!");
                     document.getElementById("tasksSection").style.display = "none";
-                    document.getElementById("mainAirdrop").classList.remove("hidden");
                     document.getElementById("presaleSection").classList.remove("hidden");
+                    document.getElementById("mainAirdrop").classList.remove("hidden");
+                    document.getElementById("balance").innerText = currentBalance;
                 }
             }
         }
@@ -228,29 +171,21 @@
         function copyRef() {
             const refText = document.getElementById("refLink").innerText;
             navigator.clipboard.writeText(refText);
-            alert("Referral link copied successfully!");
+            alert("تم نسخ رابط الإحالة بنجاح!");
         }
 
         function requestWithdraw() {
-            if (!tonConnectUI.connected) {
-                alert("Error: Please connect your TON wallet from the top first!");
-                return;
-            }
             const bal = parseInt(document.getElementById("balance").innerText);
             if (bal < 500) {
-                alert("Sorry, minimum withdrawal is 500 HMZ!");
+                alert("عذراً، يجب أن يصل رصيدك إلى 500 HMZ على الأقل لتتمكن من طلب السحب!");
             } else {
-                alert("Withdrawal request submitted successfully.");
+                alert("تم تقديم طلب السحب بنجاح.");
             }
         }
 
         function buyPackage(amount, price) {
-            if (!tonConnectUI.connected) {
-                alert("Error: Please connect your TON wallet from the top first!");
-                return;
-            }
-            if(confirm("Confirm purchasing " + amount + " HMZ for " + price + " TON?")) {
-                alert("Official Wallet Address for Transfer:\n" + OFFICIAL_WALLET + "\n\nPlease transfer " + price + " TON.");
+            if(confirm(`هل تريد تأكيد شراء ${amount} HMZ مقابل ${price} TON؟`)) {
+                alert(`عنوان المحفظة للتحويل:\n${OFFICIAL_WALLET}\n\nيرجى تحويل ${price} TON.`);
             }
         }
     </script>
