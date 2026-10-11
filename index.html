@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hermez Airdrop & Presale</title>
+    <title>Hermez ($HMZ) Airdrop & Presale</title>
     
     <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -43,8 +43,8 @@
             font-size: 16px;
         }
         .btn:active { background: #2563eb; }
-        .btn-success { background: #10b981; }
         .btn-disabled { background: #475569 !important; cursor: not-allowed; opacity: 0.6; }
+        
         .task-item {
             background: #0f172a;
             padding: 12px;
@@ -53,6 +53,32 @@
             border: 1px solid #334155;
             text-align: left;
         }
+        
+        /* Presale Tiers Styling */
+        .tier-box {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 1px solid #334155;
+            position: relative;
+        }
+        .tier-featured {
+            border: 2px solid #facc15;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        .badge {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: #facc15;
+            color: #0f172a;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 5px;
+        }
+
         .wallet-box {
             background: #0f172a;
             padding: 10px;
@@ -73,38 +99,38 @@
 </head>
 <body>
 
-    <!-- 1. Real TonConnect UI Widget -->
+    <!-- 1. TonConnect Wallet Section -->
     <div class="card" style="border-color: #8b5cf6;">
         <h2>🔗 Connect TON Wallet</h2>
-        <p>Connect using Tonkeeper, MyTonWallet, or any TON wallet:</p>
+        <p>Connect your TON wallet to participate:</p>
         <div id="ton-connect"></div>
     </div>
 
-    <!-- 2. Tasks Section -->
+    <!-- 2. Airdrop Tasks Section -->
     <div id="tasksSection" class="card">
-        <h2>📋 Complete Tasks (+5 HMZ each)</h2>
-        <p>Complete these tasks to unlock your Airdrop dashboard and Presale:</p>
+        <h2>📋 Airdrop Tasks (+5 HMZ each)</h2>
+        <p>Complete these tasks to unlock your Airdrop dashboard & Presale:</p>
         
         <div class="task-item">
-            <p>1️⃣ Task 1: View Announcement</p>
+            <p>1️⃣ Task 1: View Channel Announcement</p>
             <button id="watch1Btn" class="btn" style="background: #0284c7; padding: 8px;" onclick="startTask(1)">Start Task 1</button>
             <button id="task1Btn" class="btn btn-disabled" onclick="completeTask(1)" disabled>Confirm Task 1 (+5 HMZ)</button>
         </div>
 
         <div class="task-item">
-            <p>2️⃣ Task 2: Join Community</p>
+            <p>2️⃣ Task 2: Join Community Chat</p>
             <button id="watch2Btn" class="btn" style="background: #0284c7; padding: 8px;" onclick="startTask(2)">Start Task 2</button>
             <button id="task2Btn" class="btn btn-disabled" onclick="completeTask(2)" disabled>Confirm Task 2 (+5 HMZ)</button>
         </div>
 
         <div class="task-item">
-            <p>3️⃣ Task 3: Visit Partner</p>
+            <p>3️⃣ Task 3: Follow TON Ecosystem</p>
             <button id="watch3Btn" class="btn" style="background: #0284c7; padding: 8px;" onclick="startTask(3)">Start Task 3</button>
             <button id="task3Btn" class="btn btn-disabled" onclick="completeTask(3)" disabled>Confirm Task 3 (+5 HMZ)</button>
         </div>
 
         <div class="task-item">
-            <p>4️⃣ Task 4: Follow Updates</p>
+            <p>4️⃣ Task 4: Visit Partner Project</p>
             <button id="watch4Btn" class="btn" style="background: #0284c7; padding: 8px;" onclick="startTask(4)">Start Task 4</button>
             <button id="task4Btn" class="btn btn-disabled" onclick="completeTask(4)" disabled>Confirm Task 4 (+5 HMZ)</button>
         </div>
@@ -124,27 +150,35 @@
         <button class="btn" style="background: #475569;" onclick="requestWithdraw()">Request Withdrawal (Min 500)</button>
     </div>
 
-    <!-- 4. Presale Section -->
+    <!-- 4. Presale Tiers Section -->
     <div id="presaleSection" class="card hidden" style="border-color: #facc15;">
-        <h2>🔥 Presale Phase</h2>
+        <h2>🔥 Presale Tiers</h2>
         <p>⏳ Presale ends on: November 1</p>
+        <p style="color: #94a3b8; font-size: 14px;">Choose your investment tier:</p>
         
-        <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
-            <p style="font-weight: bold; font-size: 18px;">📦 1,000 HMZ</p>
+        <!-- Tier 1: Starter -->
+        <div class="tier-box">
+            <p style="font-weight: bold; font-size: 18px; color: #38bdf8;">🥉 Tier 1: Starter Package</p>
+            <p style="font-size: 20px; font-weight: bold; margin: 5px 0;">1,000 HMZ</p>
             <p style="color: #facc15; font-weight: bold;">Price: 2 TON</p>
-            <button class="btn" onclick="buyPackage('1,000', '2')">Buy Now</button>
+            <button class="btn" onclick="buyPackage('1,000 HMZ (Starter)', '2')">Buy Tier 1</button>
         </div>
 
-        <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
-            <p style="font-weight: bold; font-size: 18px;">📦 5,000 HMZ</p>
+        <!-- Tier 2: Advanced (Featured) -->
+        <div class="tier-box tier-featured">
+            <div class="badge">POPULAR 🔥</div>
+            <p style="font-weight: bold; font-size: 18px; color: #a855f7;">🥈 Tier 2: Pro Package</p>
+            <p style="font-size: 20px; font-weight: bold; margin: 5px 0;">5,000 HMZ</p>
             <p style="color: #facc15; font-weight: bold;">Price: 8 TON</p>
-            <button class="btn" onclick="buyPackage('5,000', '8')">Buy Now</button>
+            <button class="btn" style="background: #8b5cf6;" onclick="buyPackage('5,000 HMZ (Pro)', '8')">Buy Tier 2</button>
         </div>
 
-        <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #334155;">
-            <p style="font-weight: bold; font-size: 18px;">📦 10,000 HMZ</p>
+        <!-- Tier 3: Elite / Whale -->
+        <div class="tier-box">
+            <p style="font-weight: bold; font-size: 18px; color: #10b981;">🥇 Tier 3: Elite Whale Package</p>
+            <p style="font-size: 20px; font-weight: bold; margin: 5px 0;">10,000 HMZ</p>
             <p style="color: #facc15; font-weight: bold;">Price: 16 TON</p>
-            <button class="btn" onclick="buyPackage('10,000', '16')">Buy Now</button>
+            <button class="btn" style="background: #059669;" onclick="buyPackage('10,000 HMZ (Elite)', '16')">Buy Tier 3</button>
         </div>
     </div>
 
@@ -152,25 +186,25 @@
         const OFFICIAL_WALLET = "UQB-Dukz9FM8-Xksu7DdnhFDD1zTzwMZ7ZcMiuOIQFoC78As";
         let completedCount = 0;
         let currentBalance = 20;
+        let telegramUser = { id: "GUEST", name: "Guest User" };
         const taskState = {1: false, 2: false, 3: false, 4: false};
 
-        // توليد رابط الإحالة الحقيقي بناءً على Telegram WebApp User ID
         window.addEventListener('DOMContentLoaded', () => {
             const tg = window.Telegram.WebApp;
             tg.expand();
             
-            let userId = "";
-            if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
-                userId = tg.initDataUnsafe.user.id;
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                telegramUser.id = tg.initDataUnsafe.user.id;
+                telegramUser.name = (tg.initDataUnsafe.user.first_name || "") + " " + (tg.initDataUnsafe.user.last_name || "");
+                if (!telegramUser.name.trim()) telegramUser.name = "User_" + telegramUser.id;
             } else {
-                userId = "GUEST_" + Math.floor(Math.random() * 100000);
+                telegramUser.name = "Web_User_" + Math.floor(Math.random() * 10000);
             }
             
             const botUsername = "HermezAirdrop_bot"; 
-            document.getElementById("refLink").innerText = `https://t.me/${botUsername}?start=ref_${userId}`;
+            document.getElementById("refLink").innerText = `https://t.me/${botUsername}?start=ref_${telegramUser.id}`;
         });
 
-        // Initialize TonConnect UI
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://oudjani4.github.io/hermez-presale/tonconnect-manifest.json',
             buttonRootId: 'ton-connect'
@@ -178,13 +212,13 @@
 
         function startTask(num) {
             const watchBtn = document.getElementById('watch' + num + 'Btn');
-            watchBtn.innerText = "⏳ Checking task...";
+            watchBtn.innerText = "⏳ Verifying...";
             watchBtn.disabled = true;
 
             setTimeout(() => {
                 watchBtn.innerText = "✅ Done";
                 enableConfirmButton(num);
-            }, 3000);
+            }, 2500);
         }
 
         function enableConfirmButton(num) {
@@ -208,7 +242,7 @@
                 document.getElementById("balance").innerText = currentBalance;
 
                 if (completedCount >= 4) {
-                    alert("Congratulations! All tasks completed. Airdrop and Presale unlocked!");
+                    alert("Congratulations! All tasks completed. Airdrop dashboard & Presale tiers unlocked!");
                     document.getElementById("tasksSection").style.display = "none";
                     document.getElementById("mainAirdrop").classList.remove("hidden");
                     document.getElementById("presaleSection").classList.remove("hidden");
@@ -235,14 +269,29 @@
             }
         }
 
-        function buyPackage(amount, price) {
+        function buyPackage(packageName, price) {
             if (!tonConnectUI.connected) {
                 alert("Error: Please connect your TON wallet from the top first!");
                 return;
             }
-            if(confirm("Confirm purchasing " + amount + " HMZ for " + price + " TON?")) {
-                alert("Official Wallet Address for Transfer:\n" + OFFICIAL_WALLET + "\n\nPlease transfer " + price + " TON.");
+            if(confirm("Confirm purchasing " + packageName + " for " + price + " TON?")) {
+                saveBuyer(packageName, price);
+                alert("Official Wallet Address for Transfer:\n" + OFFICIAL_WALLET + "\n\nPlease transfer " + price + " TON to complete your purchase.");
             }
+        }
+
+        function saveBuyer(packageName, price) {
+            let buyers = JSON.parse(localStorage.getItem('hermez_buyers') || '[]');
+            const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            buyers.unshift({
+                name: telegramUser.name,
+                package: packageName,
+                price: price + " TON",
+                time: timeNow
+            });
+
+            localStorage.setItem('hermez_buyers', JSON.stringify(buyers));
         }
     </script>
 </body>
